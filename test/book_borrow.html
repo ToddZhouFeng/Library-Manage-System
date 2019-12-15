@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="bootstrap-admin-vertical-centered">
+
+</html>
+<html>
+
+<head>
+    <title>图书馆-借还书
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no,width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+
+    <!--采用 Staticfile CDN 上的 Bootstrap 3 库 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css">
+    </script>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!--与条形码扫描相关的代码-->
+    <script src="lib/zepto.js"></script>
+    <script src="lib/qrcode.lib.min.js"></script>
+    <script src="lib/quagga.min.js"></script>
+    <script src="lib/scanCode.js"></script>
+
+    <script>
+        function barcode(el) {
+            SCAN.BARCODE(el, function (data) {
+                if (data) {
+                    $("#ISBN").val(data);
+                } else {
+                    alert("图片不清晰或错误");
+                }
+            });
+        }
+    </script>
+
+    <style>
+        .othertop {
+            margin-top: 10px;
+        }
+
+        input[node-type=jsbridge] {
+            visibility: hidden;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- 导航栏-->
+    <div id="main_navbar"></div>
+    <script>
+        $('#main_navbar').load("./layout/navbar.php");
+    </script>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="well">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#home" data-toggle="tab">借还图书</a></li>
+            
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane active in" id="home">
+                <br>
+                <form class="form-horizontal" role="form">
+                    <fieldset>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="ISBN">ISBN</label>
+                            <div class="col-md-4">
+                                <div class="input-group" onclick="">
+                                    <div class="input-group-addon" onclick="barcode(this)">
+                                        <i class="fa fa-camera"><input input-type="jsScan" type="file" name="jsScan" style="position: absolute; opacity: 0; filter:Alpha(opacity=0);"
+                                                />
+                                        </i>
+
+                                    </div>
+                                    <input id="ISBN" name="ISBN" type="text" placeholder="点击图标手机拍照扫码"
+                                        class="form-control input-md" required="required">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="countNumber">复本号 </label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-file-o"></i>
+                                    </div>
+                                    <input id="countNumber" name="countNumber" type="text" placeholder="图书标签上的复本号"
+                                        class="form-control input-md" required="required">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label"></label>
+                            <div class="col-md-4 ">
+                                <a href="#" class="btn btn-success pull-right" id="borrow-book"><span
+                                        class="glyphicon glyphicon-share"></span>借书</a>
+                                <a href="#" class="btn btn-default pull-right" value="" id="return-book"><span
+                                        class="glyphicon glyphicon-check"></span>还书</a>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+            
+        </div>
+
+        <!--借书-->
+        <script>
+            $(function () {
+                $("#borrow-book").click(function () {
+                    var ISBN = $("#ISBN").val();
+                    var countNumber = $("#countNumber").val();
+                    $.ajax({
+                        type: "GET",
+                        url: "./reader/borrow_book.php?ISBN=" + ISBN + "&countNumber=" + countNumber,
+                        dataType: "json",
+                        success: function (data) {
+                            $(function () {
+                                $.each(data, function (i, data) {
+                                    if(data["result"] == "10"){
+                                        alert("借书成功")
+                                    }
+                                    else if(data["result"] == "8"){
+                                        alert("您有超时未还书，请还书后再借")
+                                    }
+                                    else if(data["result"] == "6"){
+                                        alert("借书数量达到上限，请还书后再借")
+                                    }
+                                    else if(data["result"] == "3"){
+                                        alert("书籍信息错误，请检查输入")
+                                    }
+                                    else if(data["result"] == "4"){
+                                        alert("该书已被借。请联系管理员")
+                                    }
+                                    else{
+                                        alert("系统错误，请联系管理员")
+                                    }
+                                });
+                            });
+                            return false;
+                        }
+                    })
+                })
+            })
+        </script>
+
+        <!--还书-->
+        <script>
+            $(function () {
+                $("#return-book").click(function () {
+                    var ISBN = $("#ISBN").val();
+                    var countNumber = $("#countNumber").val();
+                    $.ajax({
+                        type: "GET",
+                        url: "./reader/return_book.php?ISBN=" + ISBN + "&countNumber=" + countNumber,
+                        dataType: "json",
+                        success: function (data) {
+                            $(function () {
+                                $.each(data, function (i, data) {
+
+                                });
+                            });
+                            return false;
+                        }
+                    })
+                })
+            })
+        </script>
+
+
+
+
+
+</body>
+
+</html>

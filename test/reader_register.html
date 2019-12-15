@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="bootstrap-admin-vertical-centered">
+
+</html>
+<html>
+
+<head>
+    <title>图书馆-读者注册
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--采用 Staticfile CDN 上的 Bootstrap 3 库 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    </script>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <style type="text/css">
+        .login-form {
+            width: 340px;
+            margin: 50px auto;
+        }
+
+        .login-form form {
+            margin-bottom: 15px;
+            background: #f7f7f7;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+
+        .login-form h2 {
+            margin: 0 0 15px;
+        }
+
+        .form-control,
+        .btn {
+            min-height: 38px;
+            border-radius: 2px;
+        }
+
+        .btn {
+            font-size: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 导航栏-->
+    <div id="main_navbar"></div>
+    <script>
+        $('#main_navbar').load("layout/navbar.php");
+    </script>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="login-form">
+        <form action="/test/reader/register.php" method="post">
+            <h2 class="text-center">读者注册</h2>
+            <div class="form-group">
+                <input type="text" class="form-control" name="name" placeholder="姓名" required="required"
+                    title='请输入真实姓名'>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="phone" placeholder="电话" required="required" required
+                    pattern="[0-9]{11}" minlength="11" maxlength="11" title='请输入11位的电话号码'>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="password" placeholder="密码" required="required"
+                    title='长度为8~20位的字母与数字组合' minlength="8" maxlength="20">
+            </div>
+            <div class="form-group">
+                <button type="submit" id='submit_btn' class="btn btn-primary btn-block" title='请阅读并勾选同意《图书馆协议》'
+                    disabled='disabled'>注册</button>
+            </div>
+            <div class="clearfix">
+                <label class="pull-left checkbox-inline"><input type="checkbox" id="agree" onclick="btn_change()">
+                    我同意《图书馆协议》</label>
+                <a href="#" class="pull-right">《图书馆协议》</a>
+            </div>
+        </form>
+        <p class="text-center"><a href="reader_login.html">已有账户？登录</a></p>
+    </div>
+
+</body>
+
+<script>
+    function btn_change() {
+        if (document.getElementById('agree').checked) {
+            document.getElementById('submit_btn').disabled = false;
+            document.getElementById('submit_btn').title = "请确保信息正确";
+        }
+        else {
+            document.getElementById('submit_btn').disabled = true;
+            document.getElementById('submit_btn').title = "请阅读并勾选同意《图书馆协议》";
+        }
+    }
+</script>
+
+
+</html>

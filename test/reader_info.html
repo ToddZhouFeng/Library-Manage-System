@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="bootstrap-admin-vertical-centered">
+
+</html>
+<html>
+
+<head>
+    <title>图书馆-读者信息
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--采用 Staticfile CDN 上的 Bootstrap 3 库 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/jquery-bootgrid/1.3.1/jquery.bootgrid.css">
+
+    </script>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery-bootgrid/1.3.1/jquery.bootgrid.js"></script>
+    <script src="https://cdn.staticfile.org/moment.js/2.24.0/moment.js"></script>
+
+    <style>
+        .othertop {
+            margin-top: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- 导航栏-->
+    <div id="main_navbar"></div>
+    <script>
+        $('#main_navbar').load("./layout/navbar.php");
+    </script>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="well">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#home" data-toggle="tab">个人信息</a></li>
+            <li><a href="#profile" data-toggle="tab">修改密码</a></li>
+            <li><a href="#book" data-toggle="tab">未还书籍</a></li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane active in" id="home">
+                <br>
+                <form class="form-horizontal" role="form">
+                    <fieldset>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="id">读者编号</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-info-circle">
+                                        </i>
+                                    </div>
+                                    <input id="readerID" name="readerID" type="text" placeholder="读者编号"
+                                        class="form-control input-md" disabled="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="name">姓名</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-user">
+                                        </i>
+                                    </div>
+                                    <input id="readerName" name="readerName" type="text" placeholder="姓名"
+                                        class="form-control input-md" required="required">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Phone number">电话 </label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-phone"></i>
+                                    </div>
+                                    <input id="readerTel" name="readerTel" type="text" placeholder="电话"
+                                        class="form-control input-md" required="required" required pattern="[0-9]{11}"
+                                        minlength="11" maxlength="11">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="regDate">注册时间</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                    <input id="readerRegDate" name="readerRegDate" type="text" placeholder="注册时间"
+                                        class="form-control input-md" disabled="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="fine">未缴罚金</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-credit-card"></i>
+                                    </div>
+                                    <input id="readerFine" name="readerFine" type="text" placeholder="未缴罚金"
+                                        class="form-control input-md" disabled="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label"></label>
+                            <div class="col-md-4 ">
+                                <a href="#" class="btn btn-success pull-right" id="upload-info"><span
+                                        class="glyphicon glyphicon-ok"></span>提交</a>
+                                <a href="#" class="btn btn-danger pull-right" value="" id="get-info"><span
+                                        class="glyphicon glyphicon-list-alt"></span>重置</a>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="tab-pane fade" id="profile">
+                <br>
+                <form class="form-horizontal" role="form" id="tab2">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">新密码</label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <a onclick="change_eye()">
+                                        <i class="fa fa-eye-slash" id="eye-sign"></i>
+                                    </a>
+                                </div>
+                                <input id="password" name="password" type="password" placeholder=""
+                                    class="form-control input-md">
+                            </div>
+                            <button class="btn btn-primary pull-right" id="change-pwd">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tab-pane fade" id="book">
+                <br>
+                <div class="table-responsive">
+                    <table id="borrow-info" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th data-column-id="ISBN">ISBN</th>
+                                <th data-column-id="CounterNum">复本号</th>
+                                <th data-column-id="BookName">书名</th>
+                                <th data-column-id="Writer">作者</th>
+                                <th data-column-id="Name">出版社</th>
+                                <th data-column-id="Price" data-type="numeric">价格</th>
+                                <th data-column-id="Borrowtime" data-type="datetime">借阅时间</th>
+                                <th data-column-id="Returntime" data-type="datetime">归还时间</th>
+                                <th data-column-id="commands" data-formatter="commands" data-sortable="false">续借</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!--重置按钮，获取读者信息-->
+        <script>
+            $(function () {
+                $("#get-info").click(function () {
+                    $.ajax({
+                        type: "GET",
+                        url: "./reader/get_info.php",
+                        dataType: "json",
+                        success: function (data) {
+                            $(function () {
+                                $.each(data, function (i, data) {
+                                    document.getElementById('readerID').value = data.ReaderID;
+                                    document.getElementById('readerName').value = data.ReaderName;
+                                    document.getElementById('readerTel').value = data.Tel;
+                                    document.getElementById('readerRegDate').value = data.RegistTime.date.slice(0, 4) + '年' + data.RegistTime.date.slice(5, 7) + '月' + data.RegistTime.date.slice(8, 10) + '日'; //只显示年月日
+                                    document.getElementById('readerFine').value = data.Fine;
+                                });
+                            });
+                            return false;
+                        }
+                    })
+                })
+            })
+        </script>
+
+        <!--提交按钮，提交读者信息-->
+        <script>
+            $(function () {
+                $("#upload-info").click(function () {
+                    var ReaderName = $("#readerName").val();
+                    var ReaderTel = $("#readerTel").val();
+                    $.ajax({
+                        type: "GET",
+                        url: "./reader/upload_info.php?ReaderName=" + ReaderName + "&ReaderTel=" + ReaderTel,
+                        dataType: "json",
+                        success: function (data) {
+                            $(function () {
+                                $.each(data, function (i, data) {
+                                    if (data.result == "0") {
+                                        alert("更改失败，请检测输入信息是否正确");
+                                    }
+                                    else {
+                                        document.getElementById('readerID').value = data.ReaderID;
+                                        document.getElementById('readerName').value = data.ReaderName;
+                                        document.getElementById('readerTel').value = data.Tel;
+                                        document.getElementById('readerRegDate').value = data.RegistTime.date.slice(0, 4) + '年' + data.RegistTime.date.slice(5, 7) + '月' + data.RegistTime.date.slice(8, 10) + '日'; //只显示年月日
+                                        document.getElementById('readerFine').value = data.Fine;
+                                        alert("更改成功");
+                                    }
+                                });
+                            });
+                            return false;
+                        }
+                    })
+                })
+            })
+        </script>
+
+        <!--更改密码-->
+        <script>
+            $(function () {
+                $("#change-pwd").click(function () {
+                    var password = $("#password").val();
+                    $.ajax({
+                        type: "GET",
+                        url: "./reader/change_password.php?password=" + password,
+                        dataType: "json",
+                        success: function (data) {
+                            $(function () {
+                                $.each(data, function (i, data) {
+                                    if (data.result == "1") {
+                                        alert("更改密码成功");
+                                    }
+                                    else {
+                                        alert("更改密码失败" + data.result);
+                                    }
+                                });
+                            });
+                            return false;
+                        }
+                    })
+                })
+            })
+        </script>
+
+
+        <script>
+            function change_eye() {
+                var temp = document.getElementById("password");
+                if (temp.type === "password") {
+                    temp.type = "text";
+                    document.getElementById("eye-sign").className = "fa fa-eye";
+                }
+                else {
+                    temp.type = "password";
+                    document.getElementById("eye-sign").className = "fa fa-eye-slash";
+                }
+            } 
+        </script>
+
+        <!--下面的函数用于在加载页面时显示信息（相当于按一次重置按钮）-->
+        <script>
+            $(document).ready(function () {
+                $("#get-info").click();
+            })
+        </script>
+
+        <script>
+            var borrowTable = $("#borrow-info").bootgrid({
+                rowSelect: true,
+                ajax: true,
+                post: function () {
+                    return {
+                        id: "b0df282a-0d67-40e5-8558-c9e93b7befed"
+                    };
+                },
+                url: "./reader/borrow_info.php",
+                formatters: {
+                    "commands": function (column, row) {
+                        return "<button type='button' class='btn btn-warn btn-xs renew' data-isbn='" + row.ISBN + "' data-countnumber = '" + row.CountNumber + "'>续借</button>";
+                    }
+                },
+                converters: {
+                    datetime: {
+                        from: function (value) { return value; },
+                        to: function (value) { return moment(value.date).format('YYYY-MM-DD'); }
+                    }
+                }
+            });
+
+            $(document).on("loaded.rs.jquery.bootgrid", function () {
+                borrowTable.find(".renew").on("click", function (event) {
+                    if (confirm("确定要续借该图书？")) {
+                        var ISBN = $(this).data("isbn");
+                        var CountNumber = $(this).data("countnumber");
+                        $.ajax({
+                            url: "./reader/renew_book.php",
+                            method: "POST",
+                            data: { ISBN: ISBN, CountNumber: CountNumber },
+                            success: function (data) {
+                                alert(data["result"]);
+                                $('#borrow-info').bootgrid('reload');
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                alert(XMLHttpRequest.status);
+                                alert(XMLHttpRequest.readyState);
+                                alert(textStatus);
+                            }
+                        })
+                    }
+                    else {
+                        return false;
+                    }
+                });
+            });
+        </script>
+
+</body>
+
+</html>

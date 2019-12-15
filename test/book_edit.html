@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="bootstrap-admin-vertical-centered">
+
+</html>
+<html>
+
+<head>
+    <title>图书馆-增改图书
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--采用 Staticfile CDN 上的 Bootstrap 3 库 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+    </script>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <style>
+        .othertop {
+            margin-top: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- 导航栏-->
+    <div id="main_navbar"></div>
+    <script>
+        $('#main_navbar').load("./layout/navbar.php");
+    </script>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="well">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#home" data-toggle="tab">增改图书</a></li>
+            <li><a id="edit-publisher" href="#profile" data-toggle="tab">增改出版社</a></li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane active in" id="home">
+                <br>
+                <form class="form-horizontal" role="form">
+                    <fieldset>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="book">书名</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-book">
+                                        </i>
+                                    </div>
+                                    <input id="book" name="book" type="text" placeholder="书名"
+                                        class="form-control input-md" required="required">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="searchingID">索书号</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-search">
+                                        </i>
+                                    </div>
+                                    <input id="searchingID" name="searchingID" type="text" placeholder="索书号"
+                                        class="form-control input-md" required="required">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="ISBN">ISBN</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-info-circle">
+                                        </i>
+                                    </div>
+                                    <input id="ISBN" name="ISBN" type="text" placeholder="ISBN"
+                                        class="form-control input-md" required="required" minlength="13" maxlength="17">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="writer">作者</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-user-circle"></i>
+                                    </div>
+                                    <input id="writer" name="writer" type="text" placeholder="作者"
+                                        class="form-control input-md">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="translator">译者</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-user-circle-o"></i>
+                                    </div>
+                                    <input id="translator" name="translator" type="text" placeholder="译者"
+                                        class="form-control input-md">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="publishDate">出版日期</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                    <input id="publishDate" name="publishDate" type="text" placeholder="YYYY-MM-DD"
+                                        class="form-control input-md">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="price">价格</label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-credit-card"></i>
+                                    </div>
+                                    <input id="price" name="price" type="text" placeholder="价格"
+                                        class="form-control input-md">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label"></label>
+                            <div class="col-md-4 ">
+                                <a href="#" class="btn btn-success pull-right" id="upload-book"><span
+                                        class="glyphicon glyphicon-ok"></span>提交</a>
+                                <a href="#" class="btn btn-primary pull-right" value="" id="search-book"><span
+                                        class="glyphicon glyphicon-search"></span>查询</a>
+                                <a href="#" class="btn btn-danger pull-right" value="" id="delete-book"><span
+                                        class="glyphicon glyphicon-trash"></span>删除</a>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="profile">
+                <br>
+                <form class="form-horizontal" role="form" id="tab2">
+                    <div class="form-group">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="publishername">名称</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-id-card"></i>
+                                        </div>
+                                        <input id="publishername" name="publishername" type="text" placeholder="出版社名称"
+                                            class="form-control input-md">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="ISBNP">编号</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-info-circle"></i>
+                                        </div>
+                                        <input id="ISBNP" name="ISBNP" type="text" placeholder="出版社的 ISBN 代码编号"
+                                            class="form-control input-md">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="tel">电话</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-phone-square"></i>
+                                        </div>
+                                        <input id="tel" name="tel" type="text" placeholder="电话"
+                                            class="form-control input-md">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="mail">邮箱</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-envelope"></i>
+                                        </div>
+                                        <input id="mail" name="mail" type="text" placeholder="邮箱"
+                                            class="form-control input-md">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="address">地址</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-map-marker"></i>
+                                        </div>
+                                        <input id="address" name="address" type="text" placeholder="地址"
+                                            class="form-control input-md">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"></label>
+                                <div class="col-md-4 ">
+                                    <a href="#" class="btn btn-success pull-right" id="upload-publisher"><span
+                                            class="glyphicon glyphicon-ok"></span>提交</a>
+
+                                    <a href="#" class="btn btn-primary pull-right" value="" id="search-publisher"><span
+                                            class="glyphicon glyphicon-search"></span>查询</a>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!--查询图书信息-->
+        <script>
+            var Old_ISBN;
+            $(function () {
+                $("#search-book").click(function () {
+                    var BookName = document.getElementById("book").value;
+                    var ISBN = document.getElementById("ISBN").value;
+                    $.ajax({
+                        type: "GET",
+                        url: "./admin/search_book.php?BookName=" + BookName + "&ISBN=" + ISBN,
+                        dataType: "json",
+                        success: function (data) {
+                            $(function () {
+                                $.each(data, function (i, data) {
+                                    if (data.result == "1") {
+                                        alert("请输入书名或ISBN（至少有一个不为空）");
+                                    } else if (data.result == "0") {
+                                        alert("无结果，请添加图书信息");
+                                    } else {
+                                        document.getElementById('book').value = data.BookName;
+                                        document.getElementById('searchingID').value = data.SearchingID;
+                                        document.getElementById('ISBN').value = data.ISBN;
+                                        Old_ISBN = data.ISBN;
+                                        document.getElementById('writer').value = data.Writer;
+                                        document.getElementById('translator').value = data.Trainslator;
+                                        document.getElementById('publishDate').value = data.PublishDat.date.slice(0, 10);
+                                        document.getElementById('price').value = data.Price;
+                                    }
+                                });
+                            });
+                            return false;
+                        }
+                    })
+                })
+            })
+        </script>
+
+        <!--提交图书信息-->
+        <script>
+            $(function () {
+                $("#upload-book").click(function () {
+                    var book = $("#book").val();
+                    var searchingID = $("#searchingID").val();
+                    var ISBN = $("#ISBN").val();
+                    var writer = $("#writer").val();
+                    var translator = $("#translator").val();
+                    var publishDate = $("#publishDate").val();
+                    var price = $("#price").val();
+                    $.ajax({
+                        type: "GET",
+                        url: "./admin/upload_book.php?bookname=" + book + "&searchingID=" + searchingID + "&ISBN=" + ISBN + "&writer=" + writer + "&translator=" + translator + "&publishDate=" + publishDate + "&price=" + price,
+                        dataType: "json",
+                        success: function (data) {
+                            $(function () {
+                                $.each(data, function (i, data) {
+                                    if (data.result == "0") {
+                                        alert("更改失败，请检测输入信息是否正确");
+                                    } else if (data.result == "1") {
+                                        alert("请输入ISBN和书名");
+                                    } else {
+                                        var clear = window.confirm("添加成功，是否要清空？")
+                                        if (clear) {
+                                            document.getElementById("book").value = '';
+                                            document.getElementById("searchingID").value = '';
+                                            document.getElementById("ISBN").value = '';
+                                            document.getElementById("writer").value = '';
+                                            document.getElementById("translator").value = '';
+                                            document.getElementById("publishDate").value = '';
+                                            document.getElementById("price").value = '';
+                                        }
+                                        else {
+                                            document.getElementById("book").value = data.BookName;
+                                            document.getElementById("searchingID").value = data.SearchingID;
+                                            document.getElementById("ISBN").value = data.ISBN;
+                                            document.getElementById("writer").value = data.Writer;
+                                            document.getElementById("translator").value = data.Trainslator;
+                                            document.getElementById("publishDate").value = data.PublishDat.date.slice(0, 10);
+                                            document.getElementById("price").value = data.Price;
+                                        }
+                                        if (data.add_pub) {
+                                            document.getElementById("edit-publisher").click();
+                                            document.getElementById("ISBNP").value = data.add_pub;
+                                            alert("未保存该出版社的信息，请添加出版社");
+                                        }
+                                    }
+                                });
+                            });
+                            return false;
+                        }
+                    })
+                })
+            })
+        </script>
+
+        <!--查找出版社-->
+        <script>
+            $(function () {
+                $("#search-publisher").click(function () {
+                    var publishername = document.getElementById("publishername").value;
+                    var ISBNP = document.getElementById("ISBNP").value;
+                    var tel = document.getElementById("tel").value;
+                    var mail = document.getElementById("mail").value;
+                    var address = document.getElementById("address").value;
+                    $.ajax({
+                        type: "GET",
+                        url: "./admin/search_publisher.php?ISBNP=" + ISBNP + "&publishername=" + publishername + "&tel=" + tel + "&mail=" + mail + "&address=" + address,
+                        dataType: "json",
+                        success: function (data) {
+                            $(function () {
+                                $.each(data, function (i, data) {
+                                    if (data.result == "1") {
+                                        alert("请输入出版社的信息（ISBN代码、名字、地址至少有一栏不为空）");
+                                    } else if (data.result == "0") {
+                                        alert("无结果，请添加出版社信息");
+                                    } else {
+                                        document.getElementById('publishername').value = data.Name;
+                                        document.getElementById('ISBNP').value = data.ISBNP;
+                                        document.getElementById('tel').value = data.Tel;
+                                        document.getElementById('mail').value = data.Email;
+                                        document.getElementById('address').value = data.Address;
+                                    }
+                                });
+                            });
+                            return false;
+                        }
+                    })
+                })
+            })
+        </script>
+
+        <!--提交出版社-->
+        <script>
+            $(function () {
+                $("#upload-publisher").click(function () {
+                    var publishername = document.getElementById("publishername").value;
+                    var ISBNP = document.getElementById("ISBNP").value;
+                    var tel = document.getElementById("tel").value;
+                    var mail = document.getElementById("mail").value;
+                    var address = document.getElementById("address").value;
+                    $.ajax({
+                        type: "GET",
+                        url: "./admin/upload_publisher.php?ISBNP=" + ISBNP + "&publishername=" + publishername + "&tel=" + tel + "&mail=" + mail + "&address=" + address,
+                        dataType: "json",
+                        success: function (data) {
+                            $(function () {
+                                $.each(data, function (i, data) {
+                                    if (data.result == "1") {
+                                        alert("请出版社的ISBN代码、名字为必填项");
+                                    } else if (data.result == "0") {
+                                        alert("增加失败");
+                                    } else {
+                                        document.getElementById('publishername').value = data.Name;
+                                        document.getElementById('ISBNP').value = data.ISBNP;
+                                        document.getElementById('tel').value = data.Tel;
+                                        document.getElementById('mail').value = data.Email;
+                                        document.getElementById('address').value = data.Address;
+                                        alert("添加成功");
+                                    }
+                                });
+                            });
+                            return false;
+                        }
+                    })
+                })
+            })
+        </script>
+
+
+        <script>
+            function change_eye() {
+                var temp = document.getElementById("password");
+                if (temp.type === "password") {
+                    temp.type = "text";
+                    document.getElementById("eye-sign").className = "fa fa-eye";
+                }
+                else {
+                    temp.type = "password";
+                    document.getElementById("eye-sign").className = "fa fa-eye-slash";
+                }
+            }
+        </script>
+
+        <!--下面的函数用于在加载页面时显示信息（相当于按一次重置按钮）-->
+        <script>
+            $(document).ready(function () {
+                $("#get-info").click();
+            })
+        </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="bootstrap-admin-vertical-centered">
+
+</html>
+<html>
+
+<head>
+    <title>图书馆-管理图书
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--采用 Staticfile CDN 上的 Bootstrap 3 库 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/jquery-bootgrid/1.3.1/jquery.bootgrid.css">
+
+    </script>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery-bootgrid/1.3.1/jquery.bootgrid.js"></script>
+    <script src="https://cdn.staticfile.org/moment.js/2.24.0/moment.js"></script>
+    <style>
+        .othertop {
+            margin-top: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- 导航栏-->
+    <div id="main_navbar"></div>
+    <script>
+        $('#main_navbar').load("./layout/navbar.php");
+    </script>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="table-responsive">
+        <table id="book-info" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th data-column-id="ISBN">ISBN</th>
+                    <th data-column-id="CountNumber">复本号</th>
+                    <th data-column-id="SearchingID">索书号</th>
+                    <th data-column-id="BookName">书名</th>
+                    <th data-column-id="Writer">作者</th>
+                    <th data-column-id="Trainslator">译者</th>
+                    <th data-column-id="Name">出版社</th>
+                    <th data-column-id="PublishDat" data-type="datetime">出版时间</th>
+                    <th data-column-id="Price" data-type="numeric">价格</th>
+                    <th data-column-id="State" data-type="numeric">在馆状态</th>
+                    <th data-column-id="Adnumber" data-type="numeric">管理员</th>
+                    <th data-column-id="commands" data-formatter="commands" data-sortable="false">编辑</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <div id="bookModal" class="modal fade">
+        <div class="modal-dialog">
+            <form method="post" id="book_form">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">添加图书</h4>
+                    </div>
+                    <div class="modal-body">
+                        <br />
+                        <label>ISBN</label>
+                        <input type="text" name="ISBN" id="ISBN" class="form-control" readonly="true"/>
+                        <br />
+                        <label>复本号</label>
+                        <input type="text" name="CountNumber" id="CountNumber" class="form-control" readonly="true" />
+                        <br />
+                        <label>索书号</label>
+                        <input type="text" name="SearchingID" id="SearchingID" class="form-control" />
+                        <br />
+                        <label>书名</label>
+                        <input type="text" name="BookName" id="BookName" class="form-control" />
+                        <br />
+                        <label>作者</label>
+                        <input type="text" name="Writer" id="Writer" class="form-control" />
+                        <br />
+                        <label>译者</label>
+                        <input type="text" name="Trainslator" id="Trainslator" class="form-control" />
+                        <br />
+                        <label>出版社</label>
+                        <input type="text" name="Name" id="Name" class="form-control" />
+                        <br />
+                        <label>出版时间</label>
+                        <input type="text" name="PublishDat" id="PublishDat" class="form-control" />
+                        <br />
+                        <label>价格</label>
+                        <input type="text" name="Price" id="Price" class="form-control" />
+                        <br />
+                        <label>在馆状态</label>
+                        <input type="text" name="State" id="State" class="form-control" />
+                        
+
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="ISBNO" id="ISBNO" />
+                        <input type="hidden" name="operation" id="operation" />
+                        <input type="submit" name="action" id="action" class="btn btn-success" value="添加" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+</body>
+
+<script>
+    var bookTable = $("#book-info").bootgrid({
+        rowSelect: true,
+        ajax: true,
+        post: function () {
+            return {
+                id: "b0df282a-0d67-40e5-8558-c9e93b7befed"
+            };
+        },
+        url: "./admin/book_info.php",
+        formatters: {
+            "commands": function (column, row) {
+                return "<button type='button' class='btn btn-warning btn-xs update' data-isbn='" + row.ISBN + "' data-countnumber = '" + row.CountNumber + "'>编辑</button>" +
+                    "&nbsp; <button type='button' class='btn btn-danger btn-xs delete' data-isbn='" + row.ISBN + "' data-countnumber = '" + row.CountNumber + "'>删除</button>";
+            }
+        },
+        converters: {
+            datetime: {
+                from: function (value) { return value; },
+                to: function (value) { return moment(value.date).format('YYYY-MM-DD'); }
+            }
+        }
+    });
+
+
+    $(document).on("loaded.rs.jquery.bootgrid", function () {
+        bookTable.find(".update").on("click", function (event) {
+            var ISBN = $(this).data("isbn");
+            var CountNumber = $(this).data("countnumber");
+            
+            $.ajax({
+                url: "./admin/book_info_single.php",
+                method: "POST",
+                data: { ISBN: ISBN, CountNumber: CountNumber },
+                dataType: "json",
+                success: function (data) {
+                    $('#bookModal').modal('show');
+                    $('#ISBN').val(data.ISBN);
+                    $('#CountNumber').val(data.CountNumber);
+                    $('#SearchingID').val(data.SearchingID);
+                    $('#Availability').val(data.Availability)
+                    $('#BookName').val(data.BookName);
+                    $('#Writer').val(data.Writer);
+                    $('#Trainslator').val(data.Trainslator);
+                    $('#Name').val(data.Name);
+                    $('#PublishDat').val(moment(data.PublishDat.date).format('YYYY-MM-DD'));
+                    $('#Price').val(data.Price);
+                    $('#State').val(data.State);
+                    $('.modal-title').text("编辑图书信息");
+                    $('#ISBNO').val(data.ISBN);
+                    $('#action').val("更新");
+                    $('#operation').val("Edit");
+                }
+            });
+        });
+    });
+
+    $(document).on('submit', '#book_form', function (event) {
+        event.preventDefault();
+        var ISBN = $('#ISBN').val();
+        var CountNumber = $('#CountNumber').val();
+
+        var form_data = $(this).serialize();
+        if (ISBN != '' && CountNumber != '') {
+            $.ajax({
+                url: "./admin/insert_book.php",
+                method: "POST",
+                data: form_data,
+                success: function (data) {
+                    alert(data["result"]);
+                    $('#book_form')[0].reset();
+                    $('#bookModal').modal('hide');
+                    $('#book-info').bootgrid('reload');
+                }
+            });
+        }
+        else {
+            alert("请填入完整信息");
+        }
+    });
+
+    $(document).on("loaded.rs.jquery.bootgrid", function () {
+        bookTable.find(".delete").on("click", function (event) {
+            if (confirm("确定要删除该图书？")) {
+                var ISBN = $(this).data("isbn");
+                var CountNumber = $(this).data("countnumber");
+                $.ajax({
+                    url: "./admin/delete_book.php",
+                    method: "POST",
+                    data: { ISBN: ISBN, CountNumber: CountNumber },
+                    success: function (data) {
+                        alert(data["result"]);
+                        $('#book-info').bootgrid('reload');
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.readyState);
+                        alert(textStatus);
+                    }
+                })
+            }
+            else {
+                return false;
+            }
+        });
+    });
+
+</script>
+
+
+
+</html>
