@@ -1,6 +1,8 @@
 <?php
 header("Content-type:application/json");
 $keywords = $_GET["keywords"];
+$area = "all";
+$area = trim($_GET["area"]);
 //链接数据库
 $serverName= "(local)";
 $serverUid = "todd";
@@ -21,14 +23,25 @@ if (empty($keyword)) {
 }else{
     $sql = "SELECT BookName, Price, Books.ISBN, PublishDat, Trainslator, Writer, SearchingID, State, CountNumber, Name FROM Books LEFT JOIN BFInf ON Books.ISBN = BFInf.ISBN LEFT JOIN PublisherInf ON Books.PublisherID = PublisherInf.ISBNP";
     if (!empty($_GET["keywords"])) {
-        $sql .= " WHERE (BFinf.BookName LIKE '%%".$keywords."%%')";
-        $sql .= "OR (PublisherInf.Name LIKE '%%" . $keywords . "%%') ";
-        $sql .= "OR (BFInf.Writer LIKE '%%" . $keywords . "%%') ";
-        $sql .= "OR (BFInf.Trainslator LIKE '%%" . $keywords . "%%') ";
+        if($area == "book" ){
+            $sql .= " WHERE (BFinf.BookName LIKE '%%".$keywords."%%') ";
+        }
+        else if($area == "writer"){
+            $sql .= " WHERE (BFinf.Writer LIKE '%%".$keywords."%%')";
+        }
+        else if($area == "publisher"){
+            $sql .= " WHERE (PublisherInf.Name LIKE '%%".$keywords."%%')";
+        }
+        else{
+            $sql .= " WHERE (BFinf.BookName LIKE '%%".$keywords."%%') ";
+            $sql .= "OR (PublisherInf.Name LIKE '%%" . $keywords . "%%') ";
+            $sql .= "OR (BFInf.Writer LIKE '%%" . $keywords . "%%') ";
+            $sql .= "OR (BFInf.Trainslator LIKE '%%" . $keywords . "%%') ";
+        }
     }
-    $result = sqlsrv_query($connect, $sql);
+    $result = sqlsrv_query($connect, $sql, array(), array('Scrollable' => 'buffered'));
     $num = sqlsrv_num_rows($result);
-    if (1) {
+    if ($num) {
         $search_result = array();
         while($row = sqlsrv_fetch_array($result)){
             $search_result[] = $row;

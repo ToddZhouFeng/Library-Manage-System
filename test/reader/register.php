@@ -16,22 +16,22 @@ if(!$connect) {
     return;
 }
 
-$phone_check = "select * from Readers where Tel = '$phone'";
+$phone_check = "select * from Readers where Tel = '$phone'"; //检查是否已注册
 $query = sqlsrv_query( $connect,$phone_check);
 if(!$query) {
-    echo '<script>alert("读取错误")</script>';
+    echo '<script>alert("系统错误")</script>';
     echo "<script>window.location.href='/test'</script>";
 }
 $row = sqlsrv_fetch_array($query);
-if($row['Tel'] == $phone) {
+if($row['Tel'] == $phone) { //已注册
     echo '<script>alert("该电话已注册。请登录")</script>';
     echo "<script>window.location.href='/test/reader_login.html'</script>";
 } 
-else {
+else { //未注册
     $sql = "INSERT INTO Readers(Tel, ReaderName, ReaderPassword, RegistTime) VALUES('$phone', '$name', '$password', '$date')";
     $query = sqlsrv_query( $connect,$sql);
     if(!$query) {
-        echo '<script>alert("读取错误")</script>';
+        echo '<script>alert("系统错误")</script>';
         echo "<script>window.location.href='/test'</script>";
     }
     else{

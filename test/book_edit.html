@@ -39,7 +39,7 @@
 
     <div class="well">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#home" data-toggle="tab">增改图书</a></li>
+            <li class="active"><a href="#home" data-toggle="tab">增加图书</a></li>
             <li><a id="edit-publisher" href="#profile" data-toggle="tab">增改出版社</a></li>
         </ul>
         <div id="myTabContent" class="tab-content">
@@ -152,8 +152,7 @@
                                         class="glyphicon glyphicon-ok"></span>提交</a>
                                 <a href="#" class="btn btn-primary pull-right" value="" id="search-book"><span
                                         class="glyphicon glyphicon-search"></span>查询</a>
-                                <a href="#" class="btn btn-danger pull-right" value="" id="delete-book"><span
-                                        class="glyphicon glyphicon-trash"></span>删除</a>
+                                
                             </div>
                         </div>
 
@@ -304,11 +303,12 @@
                         success: function (data) {
                             $(function () {
                                 $.each(data, function (i, data) {
-                                    if (data.result == "0") {
+                                    if (data.result == "0" || data.result == "5") {
                                         alert("更改失败，请检测输入信息是否正确");
                                     } else if (data.result == "1") {
                                         alert("请输入ISBN和书名");
-                                    } else {
+                                    } 
+                                    else {
                                         var clear = window.confirm("添加成功，是否要清空？")
                                         if (clear) {
                                             document.getElementById("book").value = '';

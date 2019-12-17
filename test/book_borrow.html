@@ -173,7 +173,12 @@
                         success: function (data) {
                             $(function () {
                                 $.each(data, function (i, data) {
-
+                                    if(data.result == "6"){
+                                        alert("还书成功")
+                                    }
+                                    else{
+                                        alert("还书失败")
+                                    }
                                 });
                             });
                             return false;

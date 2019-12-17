@@ -24,14 +24,17 @@ if (!$connect) {
         echo "[{\"result\":\"1\"}]"; //无输入
         exit;
     } else {
+        //查找出版社记录
         $search = "SELECT * FROM PublisherInf WHERE ISBNP = $ISBNP";
         $result = sqlsrv_query($connect, $search, array(), array('Scrollable' => 'buffered'));
         if ($result){
             $num = sqlsrv_num_rows($result);
             if($num == 0){
+                //无记录，添加新出版社
                 $sql = "INSERT INTO PublisherInf(Address, Tel, Name, Email, ISBNP) VALUES('$address', '$tel', '$publishername', '$mail', $ISBNP)";
             }
             else{
+                //有记录，更新出版社信息
                 $sql = "UPDATE PublisherInf SET Address = '$address', Tel = '$tel', Name = '$publishername', Email = '$mail' WHERE ISBNP = $ISBNP";
             }
         }

@@ -36,10 +36,7 @@ if(isset($_POST["ISBN"]) && isset($_POST["CountNumber"])){
     
     $delete_books = "DELETE FROM Books WHERE ISBN = '$ISBN' AND CountNumber = $CountNumber";
     $result = sqlsrv_query($connect, $delete_books, array(), array('Scrollable' => 'buffered'));
-    if($result){
-        
-    }
-    else{
+    if(!$result){
         echo "{\"result\":\"删除失败\"}";
         exit;
     }
@@ -51,7 +48,9 @@ if(isset($_POST["ISBN"]) && isset($_POST["CountNumber"])){
             $delete_BFInf = "DELETE FROM BFInf WHERE ISBN = '$ISBN'";
             $result = sqlsrv_query($connect, $delete_BFInf, array(), array('Scrollable' => 'buffered'));
             echo "{\"result\":\"已删除\"}";
+            exit;
         }
+        echo "{\"result\":\"已删除\"}";
     }
     else{
         echo "{\"result\":\"未彻底删除\"}";

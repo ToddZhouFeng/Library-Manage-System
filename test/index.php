@@ -25,11 +25,11 @@
 <div class="container">
   <div class="jumbotron">
     <h1>图书管理系统</h1>
-    <p>有点简陋，请不要在意细节</p> 
+    <p>github.com/ToddZhouFeng/Library-Manage-System</p> 
   </div>
   <div class="row">
     <div class="col-sm-4">
-      <h3>轻松查找图书</h3>
+      <h3 href="book-search.html">轻松查找图书</h3>
       <p>在线搜索</p>
     </div>
     <div class="col-sm-4">

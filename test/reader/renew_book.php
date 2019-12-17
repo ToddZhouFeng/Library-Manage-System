@@ -36,18 +36,18 @@ if(isset($_POST["ISBN"]) && isset($_POST["CountNumber"])){
     }
 
     $row = sqlsrv_fetch_array($result);
-    if($row["renew"] == 1){
+    if($row["Renew"] == 1){
         echo "{\"result\":\"您已续借该本书\"}";
         exit;
     }
     else{
-        $returndate=date_create($row["Returntime"]);
+        $returndate=date_create($row["Returntime"]-> format('Y-m-d H:i:s'));
         date_add($returndate,date_interval_create_from_date_string("30 days"));
         $new_returndate = date_format($returndate,"Y-m-d");
     }
     
 
-    $delete_books = "UPDATE Borrowing SET Renew = 1, Returntime = '$new_returndate' WHERE ISBN = '$ISBN' AND CountNumber = $CountNumber AND ReaderID = $ReaderID";
+    $delete_books = "UPDATE Borrowing SET Renew = 1, Returntime = '$new_returndate' WHERE ISBN = '$ISBN' AND CounterNum = $CountNumber AND ReaderID = $ReaderID";
     $result = sqlsrv_query($connect, $delete_books, array(), array('Scrollable' => 'buffered'));
     if($result){
         echo "{\"result\":\"续借成功\"}";

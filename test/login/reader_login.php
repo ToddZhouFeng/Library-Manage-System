@@ -18,24 +18,25 @@ if(!$connect) {
     return;
 }
 
-$sql = "SELECT ReaderID, ReaderName, ReaderPassword FROM Readers WHERE ReaderID = $readerID AND ReaderPassword = '$password' OR Tel = '$tel' AND ReaderPassword = '$password'";
+$sql = "SELECT ReaderID, ReaderName, ReaderPassword FROM Readers WHERE ReaderID = $readerID AND ReaderPassword = '$password' 
+OR Tel = '$tel' AND ReaderPassword = '$password'"; //通过 ReaderID 或 Tel 登陆
 $query = sqlsrv_query( $connect,$sql);
-if(!$query) {
-    echo '<script>alert("读取错误")</script>';
+if(!$query) { //执行失败
+    echo '<script>alert("系统错误")</script>';
     echo "<script>window.location.href='/test/index.php'</script>";
     return;
 }
-else{
+else{ //执行成功
 $row = sqlsrv_fetch_array($query);
     if($row['ReaderPassword'] == $password) {
         $_SESSION['readerID']  = $row['ReaderID'];  //把readerID存到session中
         $_SESSION['name']  = $row['ReaderName'];
         //echo '<script>alert("'.$row['ReaderName'].'登录成功")</script>'; //感觉加了这句用户体验不好
-        echo "<script>window.location.href='/test'</script>";
+        echo "<script>window.location.href='/test'</script>"; //跳转回主界面
     }
     else {
-        echo '<script>alert("登录失败！请检查输入是否正确")</script>';
-        echo "<script>window.location.href='/test/reader_login.html'</script>";
+        echo '<script>alert("登录失败！请检查输入是否正确")</script>'; //提示信息
+        echo "<script>window.location.href='/test/reader_login.html'</script>"; //跳转回登陆界面
     }
 }
 ?>

@@ -37,9 +37,12 @@ if (!empty($_POST["searchPhrase"])) {
     $query .= " WHERE (BFinf.BookName LIKE '%%".$_POST["searchPhrase"]."%%'";
     $query .= "OR PublisherInf.Name LIKE '%%" . $_POST["searchPhrase"] . "%%' ";
     $query .= "OR BFInf.Writer LIKE '%%" . $_POST["searchPhrase"] . "%%') ";
+    $query .= " AND Borrowing.ReaderID = $ReaderID";
+}
+else{
+ $query .= " WHERE Borrowing.ReaderID = $ReaderID";
 }
 
-$query .= " AND Borrowing.ReaderID = $ReaderID";
 
 $order_by = '';
 if (isset($_POST["sort"]) && is_array($_POST["sort"])) {

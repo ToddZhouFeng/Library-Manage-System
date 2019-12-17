@@ -33,9 +33,9 @@ if (isset($_POST["current"])) {
 
 $query .= "SELECT ReaderID, ReaderName, Tel, Availability, Fine, RegistTime FROM Readers ";
 
-if (!empty($_POST["searchPhrase"])) {
+if (!empty($_POST["searchPhrase"])) {//搜索关键词
     $query .= " WHERE ReaderName LIKE '%%".$_POST["searchPhrase"]."%%'";
-    //$query .= "OR Tel LIKE '%" . $_POST["searchPhrase"] . "%' ";
+    $query .= " OR Tel LIKE '%" . $_POST["searchPhrase"] . "%' ";
 }
 
 
@@ -45,11 +45,11 @@ if (isset($_POST["sort"]) && is_array($_POST["sort"])) {
         $order_by .= " $key $value, ";
     }
 } else {
-    $query .= 'ORDER BY ReaderID DESC ';
+    $query .= 'ORDER BY ReaderID DESC '; //默认按读者ID排序
 }
 
 if ($order_by != '') {
-    $query .= ' ORDER BY ' . substr($order_by, 0, -2);
+    $query .= ' ORDER BY ' . substr($order_by, 0, -2); //排序
 }
 /*
 if ($records_per_page != -1) {

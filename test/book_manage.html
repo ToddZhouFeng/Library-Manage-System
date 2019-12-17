@@ -193,10 +193,10 @@
                 method: "POST",
                 data: form_data,
                 success: function (data) {
-                    alert(data["result"]);
                     $('#book_form')[0].reset();
                     $('#bookModal').modal('hide');
                     $('#book-info').bootgrid('reload');
+                    alert(data["result"]);
                 }
             });
         }
@@ -215,8 +215,8 @@
                     method: "POST",
                     data: { ISBN: ISBN, CountNumber: CountNumber },
                     success: function (data) {
-                        alert(data["result"]);
                         $('#book-info').bootgrid('reload');
+                        alert(data["result"]);
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         alert(XMLHttpRequest.status);

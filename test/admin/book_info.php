@@ -31,9 +31,10 @@ if (isset($_POST["current"])) {
 }
 
 
-$query .= "SELECT BookName, Price, Books.ISBN, PublishDat, Trainslator, Writer, SearchingID, State, CountNumber, Name, Adnumber FROM Books LEFT JOIN BFInf ON Books.ISBN = BFInf.ISBN LEFT JOIN PublisherInf ON Books.PublisherID = PublisherInf.ISBNP";
+$query .= "SELECT BookName, Price, Books.ISBN, PublishDat, Trainslator, Writer, SearchingID, State, CountNumber, Name, Adnumber 
+FROM Books LEFT JOIN BFInf ON Books.ISBN = BFInf.ISBN LEFT JOIN PublisherInf ON Books.PublisherID = PublisherInf.ISBNP";
 
-if (!empty($_POST["searchPhrase"])) {
+if (!empty($_POST["searchPhrase"])) { //搜索关键词
     $query .= " WHERE (BFinf.BookName LIKE '%%".$_POST["searchPhrase"]."%%')";
     $query .= "OR (PublisherInf.Name LIKE '%%" . $_POST["searchPhrase"] . "%%') ";
     $query .= "OR (BFInf.Writer LIKE '%%" . $_POST["searchPhrase"] . "%%') ";
@@ -43,10 +44,10 @@ if (!empty($_POST["searchPhrase"])) {
 $order_by = '';
 if (isset($_POST["sort"]) && is_array($_POST["sort"])) {
     foreach ($_POST["sort"] as $key => $value) {
-        $order_by .= " $key $value, ";
+        $order_by .= " $key $value, "; //排序
     }
 } else {
-    $query .= " ORDER BY BookName DESC ";
+    $query .= " ORDER BY BookName DESC "; //默认按书名排序
 }
 
 if ($order_by != '') {
@@ -54,7 +55,7 @@ if ($order_by != '') {
 }
 /*
 if ($records_per_page != -1) {
-    $query .= " LIMIT " . $start_from . ", " . $records_per_page;
+    $query .= " LIMIT " . $start_from . ", " . $records_per_page; //mySQL
 }
 */
 

@@ -12,6 +12,10 @@ $publishDate = !empty($_GET['publishDate']) ? (trim($_GET['publishDate'])) : '0'
 $publishDate = str_replace('/', '-', $publishDate);
 $price = !empty($_GET['price']) ? (trim($_GET['price'])) : '0';
 $price = intval($price);
+if ($bookname == '0' || $ISBN == '0') {
+    echo "[{\"result\":\"1\"}]"; //无输入
+    exit;
+}
 $ISBNP = explode('-', $ISBN);
 if (sizeof($ISBNP) == 4) $ISBNP = $ISBNP[1];
 else $ISBNP = $ISBNP[2];
@@ -36,6 +40,7 @@ if (!$connect) {
         if ($result) {
             $num = sqlsrv_num_rows($result);
             if ($num == 0) {
+                //向图书信息表 BFInf 中插入信息
                 $sql = "INSERT INTO BFInf(SearchingID, BookName, Price, ISBN, PublishDat, Trainslator, Writer) VALUES('$searchingID','$bookname', $price, '$ISBN', '$publishDate', '$translator', '$writer')";
                 $result = sqlsrv_query($connect, $sql, array(), array('Scrollable' => 'buffered'));
                 if (!$result) {
@@ -52,6 +57,7 @@ if (!$connect) {
                 $add_pub = 0;
             }
             $adminID = strval($_SESSION['adminID']);
+            //向具体图书表 Books 中插入一本新书
             $upload_book = "INSERT INTO Books( Replenish, State, PublisherID, Adnumber, ISBN, CountNumber) VALUES( 0, 1, $ISBNP, $adminID,'$ISBN', (SELECT COUNT(ISBN) FROM Books WHERE ISBN = '$ISBN')+1)";
             $result = sqlsrv_query($connect, $upload_book, array(), array('Scrollable' => 'buffered'));
             if ($result) {

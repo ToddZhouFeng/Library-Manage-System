@@ -44,7 +44,7 @@
         <ul class="nav nav-tabs">
             <li class="active"><a href="#home" data-toggle="tab">个人信息</a></li>
             <li><a href="#profile" data-toggle="tab">修改密码</a></li>
-            <li><a href="#book" data-toggle="tab">未还书籍</a></li>
+            <li><a href="#book" data-toggle="tab">已借书籍</a></li>
         </ul>
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane active in" id="home">
@@ -302,7 +302,7 @@
                 url: "./reader/borrow_info.php",
                 formatters: {
                     "commands": function (column, row) {
-                        return "<button type='button' class='btn btn-warn btn-xs renew' data-isbn='" + row.ISBN + "' data-countnumber = '" + row.CountNumber + "'>续借</button>";
+                        return "<button type='button' class='btn btn-warn btn-xs renew' data-isbn='" + row.ISBN + "'  data-countnumber = '" + row.CounterNum + "'>续借</button>";
                     }
                 },
                 converters: {
@@ -317,11 +317,11 @@
                 borrowTable.find(".renew").on("click", function (event) {
                     if (confirm("确定要续借该图书？")) {
                         var ISBN = $(this).data("isbn");
-                        var CountNumber = $(this).data("countnumber");
+                        var Count = $(this).data("countnumber");
                         $.ajax({
                             url: "./reader/renew_book.php",
                             method: "POST",
-                            data: { ISBN: ISBN, CountNumber: CountNumber },
+                            data: { ISBN: ISBN, CountNumber: Count },
                             success: function (data) {
                                 alert(data["result"]);
                                 $('#borrow-info').bootgrid('reload');
