@@ -37,7 +37,44 @@
 为了让页面显得更简洁（也便于编程），对页面的样式作一些规定：
 
 1. 页面主体由四大部分组成：导航栏、信息栏、输入框、结果框
-2. 
+
+
+
+# Trigger Used
+
+```sql
+//借书的 Trigger
+CREATE TRIGGER Borrowbook
+ON Borrowing
+After insert 
+AS
+begin 
+DECLARE @IS NCHAR(13),@CN INT,@RID INT
+SELECT @IS=ISBN,@CN=CounterNum,@RID=ReaderID FROM INSERTED
+UPDATE Books 
+SET State=1
+WHERE CountNumber=@CN AND ISBN=@IS;
+UPDATE Readers
+SET Availability=Availability-1
+WHERE ReaderID=@RID
+end
+
+//还书的Trigger
+CREATE TRIGGER StateRenew ON History
+After insert 
+AS 
+begin 
+declare @IS Nchar(13),@CN INT,@RID INT
+SELECT @IS=ISBN,@CN=CounterNum,@RID=ReaderID FROM INSERTED
+UPDATE Books
+SET State=0 
+WHERE ISBN=@IS AND CountNumber=@CN
+DELETE FROM Borrowing WHERE ISBN=@IS AND CounterNum=@CN
+UPDATE Readers
+SET Availability=Availability+1
+WHERE ReaderID=@RID
+end
+```
 
 # 一些参考资料
 
